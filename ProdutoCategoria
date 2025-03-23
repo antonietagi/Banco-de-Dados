@@ -1,0 +1,37 @@
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
+
+CREATE TABLE categories (
+    id INT PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+CREATE TABLE products (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    amount INT,
+    price DECIMAL(10,2),
+    id_categories INT,
+    FOREIGN KEY (id_categories) REFERENCES categories(id)
+);
+
+INSERT INTO categories(id, name) 
+VALUES
+(1, 'wood'),
+(2, 'luxury'),
+(3, 'vintage'),
+(4, 'modern'),
+(5, 'super luxury');
+
+INSERT INTO products(id, name, amount, price, id_categories)
+VALUES
+(1, 'Two-doors wardrobe', 100, 800.00, 1),
+(2, 'Dining table', 1000, 560.00, 3),
+(3, 'Towel holder', 10000, 25.50, 4),
+(4, 'Computer desk', 350, 320.50, 2),
+(5, 'Chair', 3000, 210.64, 4),
+(6, 'Single bed', 750, 460.00, 1);
+
+SELECT categories.name, SUM(products.amount)
+FROM products
+JOIN categories ON products.id_categories = categories.id
