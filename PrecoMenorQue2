@@ -1,0 +1,38 @@
+-- Criar a tabela prices
+CREATE TABLE prices (
+id INT PRIMARY KEY,
+category VARCHAR(255),
+value NUMERIC(10, 2)
+);
+
+-- Inserir dados na tabela prices
+INSERT INTO prices (id, category, value)
+VALUES
+(1, 'Releases', 3.50),
+
+(2, 'Bronze Seal', 2.00),
+(3, 'Silver Seal', 2.50),
+(4, 'Gold Seal', 3.00),
+(5, 'Promotion', 1.50);
+
+-- Criar a tabela movies
+CREATE TABLE movies (
+id INT PRIMARY KEY,
+name VARCHAR(255),
+id_prices INT,
+FOREIGN KEY (id_prices) REFERENCES prices(id)
+);
+
+-- Inserir dados na tabela movies
+INSERT INTO movies (id, name, id_prices)
+VALUES
+(1, 'Batman', 3),
+(2, 'The Battle of the Dark River', 3),
+(3, 'White Duck', 5),
+(4, 'Breaking Barriers', 4),
+(5, 'The Two Hours', 2);
+
+SELECT movies.id, movies.name
+FROM movies
+JOIN prices ON movies.id_prices = prices.id
+WHERE prices.value < 2.00
