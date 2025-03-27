@@ -22,18 +22,17 @@ FROM products;
 
 SELECT * FROM menor_maior_price
 
-DELIMITER $$
-	CREATE TRIGGER desconto_maior
-    BEFORE UPDATE ON products
-    FOR EACH ROW
-    BEGIN
-		UPDATE products
-        SET price = price * 0.8
-        WHERE price = (SELECT(MIN(price)) FROM products);
-        
-        END;
-    END $$   
-    
-DELIMITER ;    
+
+CREATE TRIGGER desconto_maior
+BEFORE UPDATE ON products
+FOR EACH ROW
+BEGIN
+    -- Aplica o desconto de 20% apenas no menor preço
+    IF NEW.price = (SELECT MIN(price) FROM products) THEN
+        SET NEW.price = NEW.price * 0.8;
+    END IF;
+END $$
+
+DELIMITER ;
 
 
